@@ -58,5 +58,12 @@ class SeederServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__ . '/../config/seeder.php' => config_path('seeder.php'),
         ], 'seeder.config');
+
+        // Registering package commands.
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                \Huztw\Seeder\Console\SeederCommand::class,
+            ]);
+        }
     }
 }
