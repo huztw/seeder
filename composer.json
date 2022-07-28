@@ -1,0 +1,40 @@
+{
+    "name": "huztw/seeder",
+    "description": "laravel seeder",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "huztw",
+            "email": "c0s0c0z0@gmail.com"
+        }
+    ],
+    "homepage": "https://github.com/huztw/seeder",
+    "keywords": ["Laravel", "Seeder"],
+    "require": {
+        "illuminate/support": "~9"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~9.0",
+        "orchestra/testbench": "~7"
+    },
+    "autoload": {
+        "psr-4": {
+            "Huztw\\Seeder\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Huztw\\Seeder\\Tests\\": "tests"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Huztw\\Seeder\\SeederServiceProvider"
+            ],
+            "aliases": {
+                "Seeder": "Huztw\\Seeder\\Facades\\Seeder"
+            }
+        }
+    }
+}
