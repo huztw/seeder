@@ -1,6 +1,6 @@
 <?php
 
-namespace Huztw\Seeder\Database\Seeders\Traits;
+namespace Huztw\Seeder\Database;
 
 use Closure;
 use Illuminate\Database\QueryException;
