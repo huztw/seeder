@@ -36,11 +36,11 @@ class SeederCommand extends Command
      */
     public function __construct()
     {
-        $this->seeders = config('seeders.seeders');
+        $this->seeders = collect(config('seeders.seeders'))->map(fn ($item, $key) => ! is_int($key) ? $key : $item)->values()->all();
 
-        $seeders = collect($this->seeders)->map(function ($item, $key) {return "`$key`";})->implode(', ');
+        $seeders = collect($this->seeders)->map(fn ($item) => "`$item`")->implode(', ');
 
-        $this->signature = $this->signature . "{seed? : The data seed, you can choice $seeders}";
+        $this->signature = $this->signature."{seed? : The data seed, you can choice $seeders}";
 
         parent::__construct();
     }
@@ -67,7 +67,7 @@ class SeederCommand extends Command
 
             $seeds = $seed === null ? $this->choice(
                 'What Seed should run?',
-                array_keys($this->seeders),
+                $this->seeders,
                 null,
                 null,
                 true
@@ -78,8 +78,10 @@ class SeederCommand extends Command
             }
 
             foreach ($seeds as $seed) {
-                $this->components->task($this->seeders[$seed], function () use ($seed, $force) {
-                    $this->call('db:seed', ['--class' => $this->seeders[$seed], '--force' => $force]);
+                $class = $this->seeders[array_flip($this->seeders)[$seed]];
+
+                $this->components->task($class, function () use ($class, $force) {
+                    $this->call('db:seed', ['--class' => $class, '--force' => $force]);
                 });
             }
         }

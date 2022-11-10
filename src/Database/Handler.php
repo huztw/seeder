@@ -19,9 +19,8 @@ trait Handler
     /**
      * Run the database seeds.
      *
-     * @param \Closure $callback
-     * @param array $attributes
-     *
+     * @param  \Closure  $callback
+     * @param  array  $attributes
      * @return void
      */
     public function rescue(Closure $callback, array $attributes = [])
@@ -38,14 +37,14 @@ trait Handler
                         $this->command->error("Error: $error");
                     }
                 } else {
-                    $this->command->error('Error: ' . $error->getMessage() . ' in ' . $error->getFile() . ' (' . $error->getLine() . ')');
+                    $this->command->error('Error: '.$error->getMessage().' in '.$error->getFile().' ('.$error->getLine().')');
 
-                    if (!$error instanceof QueryException) {
+                    if (! $error instanceof QueryException) {
                         $this->command->info($error->getTraceAsString());
                     }
                 }
 
-                $this->command->line("<error>Seed: " . json_encode($this->handlerAttributes, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) . '</error>');
+                $this->command->line('<error>Seed: '.json_encode($this->handlerAttributes, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE).'</error>');
                 $this->command->newLine();
             }
         });
@@ -64,8 +63,7 @@ trait Handler
     /**
      * Set the given handler attributes.
      *
-     * @param array $attributes
-     *
+     * @param  array  $attributes
      * @return void
      */
     public function setAttributes(array $attributes)

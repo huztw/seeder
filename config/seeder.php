@@ -11,19 +11,6 @@ return [
      */
 
     'seeders' => [
-        // 'user' => \Database\Seeders\UserSeeder::class,
-    ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Files
-    |--------------------------------------------------------------------------
-    |
-    | Seeders run files.
-    |
-     */
-
-    'files'   => [
-        // \Database\Seeders\UserSeeder::class => 'json/seeds/users.json',
+        // \Database\Seeders\UserSeeder::class => ['json/seeds/users.json'],
     ],
 ];

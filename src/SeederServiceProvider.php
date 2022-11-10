@@ -29,7 +29,7 @@ class SeederServiceProvider extends ServiceProvider
     {
         AboutCommand::add('Seeder', 'Version', '1.0.0');
 
-        $this->mergeConfigFrom(__DIR__ . '/../config/seeder.php', 'seeder');
+        $this->mergeConfigFrom(__DIR__.'/../config/seeder.php', 'seeder');
 
         // Register the service the package provides.
         $this->app->singleton('seeder', function ($app) {
@@ -56,7 +56,7 @@ class SeederServiceProvider extends ServiceProvider
     {
         // Publishing the configuration file.
         $this->publishes([
-            __DIR__ . '/../config/seeder.php' => config_path('seeder.php'),
+            __DIR__.'/../config/seeder.php' => config_path('seeder.php'),
         ], 'seeder.config');
 
         // Registering package commands.

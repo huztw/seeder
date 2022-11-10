@@ -2,7 +2,6 @@
 
 namespace Huztw\Seeder\Database;
 
-use Closure;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Arr;
@@ -30,14 +29,21 @@ trait RunFile
      */
     public function runSeeder()
     {
-        $this->runFile(config('seeders.files.' . get_class($this)));
+        $className = get_class($this);
+
+        $path = config("seeders.seeders.$className");
+
+        if ($path) {
+            return $this->runFile($path);
+        }
+
+        $this->call($className);
     }
 
     /**
      * Run the database seeds.
      *
-     * @param string|array $path
-     *
+     * @param  string|array  $path
      * @return void
      */
     public function runFile($path)
@@ -57,7 +63,7 @@ trait RunFile
 
             if ($this->command) {
                 $this->bar = $this->command->getOutput()->createProgressBar(count($array));
-                $this->command->line('<comment>' . __CLASS__ . "</comment>: $seedFile");
+                $this->command->line('<comment>'.__CLASS__."</comment>: $seedFile");
             }
 
             foreach ($array as $key => $item) {
@@ -78,8 +84,7 @@ trait RunFile
     /**
      * Get the file type.
      *
-     * @param string $file
-     *
+     * @param  string  $file
      * @return string|null
      */
     private function getFileType($file)
@@ -92,8 +97,7 @@ trait RunFile
     /**
      * Get array by file.
      *
-     * @param string $file
-     *
+     * @param  string  $file
      * @return array
      */
     private function getArrayByFile($file)
@@ -116,9 +120,8 @@ trait RunFile
     /**
      * Do something for seed
      *
-     * @param mixed $item
-     * @param string $key
-     *
+     * @param  mixed  $item
+     * @param  string  $key
      * @return void
      */
     public function doForSeed($item, $key)
@@ -129,19 +132,19 @@ trait RunFile
     /**
      * Get model by nesting
      *
-     * @param \Illuminate\Database\Eloquent\Model|string $model
-     * @param array $attributes
-     *
+     * @param  \Illuminate\Database\Eloquent\Model|string  $model
+     * @param  array  $attributes
      * @return \Illuminate\Database\Eloquent\Model|null
+     *
      * @throws \InvalidArgumentException
      */
     protected function getModelNested($model, array $attributes)
     {
-        if (!$model instanceof Model) {
+        if (! $model instanceof Model) {
             $model = app(Relation::getMorphedModel($model) ?? $model);
 
-            if (!$model instanceof Model) {
-                throw new InvalidArgumentException('[' . get_class($model) . '] should be instantiable as \Illuminate\Database\Eloquent\Model.');
+            if (! $model instanceof Model) {
+                throw new InvalidArgumentException('['.get_class($model).'] should be instantiable as \Illuminate\Database\Eloquent\Model.');
             }
         }
 
@@ -161,16 +164,15 @@ trait RunFile
     /**
      * Get value or model's value
      *
-     * @param mixed $value
-     * @param string|\Closure $column
-     * @param string $aliasKey
-     * @param string $aliasColumnKey
-     *
+     * @param  mixed  $value
+     * @param  string|\Closure  $column
+     * @param  string  $aliasKey
+     * @param  string  $aliasColumnKey
      * @return mixed
      */
     protected function getValueOrModelValue($value, $column = 'id', $aliasKey = '_model', $aliasColumnKey = '_column')
     {
-        if (!is_array($value)) {
+        if (! is_array($value)) {
             return $value;
         }
 
